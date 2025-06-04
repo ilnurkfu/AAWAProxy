@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   
     /* ---------- прокси к Gemini REST v1beta ---------- */
     const key   = process.env.GEMINI_KEY;          // хранится в Vercel Env
-    const model = 'gemini-pro';                    // или 'gemini-1.5-flash'
+    const model = 'gemini-2.5-flash-preview-05-20';                    // или 'gemini-1.5-flash'
     const url   =
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
   
