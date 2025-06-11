@@ -1,4 +1,8 @@
-/* ───────── кнопка-лаунчер 🤖 ───────── */
+/* =========================================================
+   widget.css  —  кнопка 🤖  +  перетаскиваемая панель-виджет
+   ========================================================= */
+
+/* ───────── кнопка запуска ───────── */
 #robot-launcher{
   position:fixed; bottom:24px; right:24px;
   width:60px; height:60px; border-radius:50%;
@@ -9,28 +13,34 @@
 }
 #robot-launcher:hover{ transform:scale(1.08); }
 
-/* ───────── оболочка-панель (таскаем её) ───────── */
+/* ───────── внешняя оболочка панели (таскаем её целиком) ───────── */
 #robot-shell{
-  position:fixed; bottom:100px; right:24px;   /* стартовая позиция */
+  position:fixed; bottom:100px; right:24px;      /* стартовое место */
   width:380px; height:520px; max-height:calc(100vh - 140px);
 
-  border-radius:12px; box-shadow:0 8px 32px #0008;
-  background:transparent; overflow:hidden;
+  background:transparent; border-radius:12px;
+  box-shadow:0 8px 32px #0008; overflow:hidden;
 
   display:none; opacity:0; transform:translateY(10px);
   transition:opacity .25s, transform .25s;
   z-index:9999;
 }
-/* класс open ставится / снимается скриптом */
+/* класс .open ставит скрипт при клике на 🤖 */
 #robot-shell.open{
   display:block; opacity:1; transform:translateY(0);
 }
 
-/* ───────── сам iframe заполняет оболочку ───────── */
-#robot-frame{
-  width:100%; height:100%; border:none; border-radius:12px;
+/* ───────── ручка-заголовок для перетаскивания ───────── */
+#robot-handle{
+  height:36px; line-height:36px; padding:0 12px;
+  background:#141923; color:#8ab4ff; font-weight:600;
+  user-select:none; cursor:grab;
+  border-bottom:1px solid #1f2633;
 }
+#robot-handle.dragging{ cursor:grabbing; }
 
-/* ───────── шапка внутри виджета = ручка ───────── */
-#header{ cursor:grab; user-select:none; }
-#header.dragging{ cursor:grabbing; }
+/* ───────── сам iframe-чат заполняет оболочку ───────── */
+#robot-frame{
+  width:100%; height:calc(100% - 36px);   /* всё, кроме ручки */
+  border:none; border-radius:0 0 12px 12px;
+}
