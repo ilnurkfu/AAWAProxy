@@ -12,6 +12,8 @@
   /* ───────── всплывающая панель ───────── */
   #robot-frame{
     position:fixed; bottom:100px; right:24px;
+
+    left:auto; top:auto;
   
     /* было 380×520 – теперь чуть выше, чтобы поместился header */
     width:380px;
@@ -30,4 +32,11 @@
   #robot-frame[style*="display: block"]{
     opacity:1; transform:translateY(0);
   }
+
+  /* header — станет «ручкой» для перетаскивания */
+#header{
+  cursor:grab;                 /* ← новое */
+  user-select:none;
+}
+#header.dragging{ cursor:grabbing; }
   
