@@ -1,42 +1,36 @@
-/* ───────── кнопка-лаунчер ───────── */
+/* ───────── кнопка-лаунчер 🤖 ───────── */
 #robot-launcher{
-    position:fixed; bottom:24px; right:24px;
-    width:60px; height:60px; border-radius:50%;
-    background:#4f7df5; color:#fff; font:32px/60px sans-serif;
-    text-align:center; cursor:pointer;
-    box-shadow:0 4px 16px #0006; z-index:9998;
-    transition:transform .2s;
-  }
-  #robot-launcher:hover { transform:scale(1.08); }
-  
-  /* ───────── всплывающая панель ───────── */
-  #robot-frame{
-    position:fixed; bottom:100px; right:24px;
-
-    left:auto; top:auto;
-  
-    /* было 380×520 – теперь чуть выше, чтобы поместился header */
-    width:380px;
-    height:520px;
-  
-    max-height:calc(100vh - 140px);
-    border:none; border-radius:12px; overflow:hidden;
-    box-shadow:0 8px 32px #0008;
-    background:transparent;
-    display:none;                 /* скрыта до клика */
-    z-index:9999;
-  
-    /* плавное появление/закрытие */
-    opacity:0; transform:translateY(10px); transition:.25s;
-  }
-  #robot-frame[style*="display: block"]{
-    opacity:1; transform:translateY(0);
-  }
-
-  /* header — станет «ручкой» для перетаскивания */
-#header{
-  cursor:grab;                 /* ← новое */
-  user-select:none;
+  position:fixed; bottom:24px; right:24px;
+  width:60px; height:60px; border-radius:50%;
+  background:#4f7df5; color:#fff;
+  font:32px/60px sans-serif; text-align:center;
+  cursor:pointer; box-shadow:0 4px 16px #0006;
+  z-index:9998; transition:transform .2s;
 }
+#robot-launcher:hover{ transform:scale(1.08); }
+
+/* ───────── оболочка-панель (таскаем её) ───────── */
+#robot-shell{
+  position:fixed; bottom:100px; right:24px;   /* стартовая позиция */
+  width:380px; height:520px; max-height:calc(100vh - 140px);
+
+  border-radius:12px; box-shadow:0 8px 32px #0008;
+  background:transparent; overflow:hidden;
+
+  display:none; opacity:0; transform:translateY(10px);
+  transition:opacity .25s, transform .25s;
+  z-index:9999;
+}
+/* класс open ставится / снимается скриптом */
+#robot-shell.open{
+  display:block; opacity:1; transform:translateY(0);
+}
+
+/* ───────── сам iframe заполняет оболочку ───────── */
+#robot-frame{
+  width:100%; height:100%; border:none; border-radius:12px;
+}
+
+/* ───────── шапка внутри виджета = ручка ───────── */
+#header{ cursor:grab; user-select:none; }
 #header.dragging{ cursor:grabbing; }
-  

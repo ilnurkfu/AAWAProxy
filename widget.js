@@ -1,67 +1,46 @@
-/* widget.js  ─ кнопка-лаунчер + drag-&-drop за header внутри iframe  */
-(function () {
-  /* ─── создаём кнопку 🤖 ─── */
-  const btn = document.createElement('div');
-  btn.id = 'robot-launcher';
-  btn.innerHTML = '🤖';
+(function(){
+  /* кнопка 🤖 */
+  const btn = Object.assign(document.createElement('div'), {
+    id:'robot-launcher', textContent:'🤖'
+  });
   document.body.appendChild(btn);
 
-  /* ─── создаём iframe (виджет) ─── */
+  /* оболочка + iframe */
+  const shell = document.createElement('div');
+  shell.id = 'robot-shell';
   const frame = document.createElement('iframe');
   frame.id  = 'robot-frame';
-  frame.src = 'https://aawa-proxy.vercel.app/widget.html';   // ваш URL
+  frame.src = 'https://aawa-proxy.vercel.app/widget.html';
   frame.title = 'Mars-Bot chat';
-  document.body.appendChild(frame);
+  shell.appendChild(frame);
+  document.body.appendChild(shell);
 
-  /* ─── показать / скрыть панель ─── */
+  /* показать / скрыть */
   btn.onclick = () => {
-    const open = frame.style.display === 'block';
-    frame.style.display = open ? 'none' : 'block';
+    shell.classList.toggle('open');
   };
 
-  /* ───────────────── drag-&-drop ───────────────── */
-  let startX, startY, startLeft, startTop, dragging = false;
+  /* ── DRAG: тянем за верхние 36 px оболочки ── */
+  let drag=false, sx=0, sy=0, sl=0, st=0;
 
-  /* после загрузки iframe получаем header и вешаем обработчик */
-  frame.addEventListener('load', () => {
-    const hdr = frame.contentDocument.getElementById('header');
-    if (!hdr) return;
-
-    hdr.style.cursor = 'grab';        /* визуальный намёк */
-    hdr.addEventListener('mousedown', onDown);
+  shell.addEventListener('mousedown', e => {
+    if(e.clientY - shell.getBoundingClientRect().top > 36) return; // только шапка
+    drag=true; sx=e.clientX; sy=e.clientY;
+    const r=shell.getBoundingClientRect(); sl=r.left; st=r.top;
+    document.addEventListener('mousemove',move); document.addEventListener('mouseup',up);
+    e.preventDefault();
   });
 
-  function onDown(e) {
-    dragging = true;
-    e.currentTarget.style.cursor = 'grabbing';
-
-    startX = e.clientX;
-    startY = e.clientY;
-    const rect = frame.getBoundingClientRect();
-    startLeft = rect.left;
-    startTop  = rect.top;
-
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup',  onUp);
-    e.preventDefault();
+  function move(e){
+    if(!drag) return;
+    const dx=e.clientX-sx, dy=e.clientY-sy;
+    shell.style.left = (sl+dx)+'px';
+    shell.style.top  = (st+dy)+'px';
+    shell.style.right='auto'; shell.style.bottom='auto';
   }
-
-  function onMove(e) {
-    if (!dragging) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    frame.style.left   = `${startLeft + dx}px`;
-    frame.style.top    = `${startTop  + dy}px`;
-    frame.style.right  = 'auto';
-    frame.style.bottom = 'auto';
-  }
-
-  function onUp(e) {
-    dragging = false;
-    const hdr = frame.contentDocument.getElementById('header');
-    if (hdr) hdr.style.cursor = 'grab';
-
-    window.removeEventListener('mousemove', onMove);
-    window.removeEventListener('mouseup',   onUp);
+  function up(){
+    drag=false;
+    document.removeEventListener('mousemove',move);
+    document.removeEventListener('mouseup',up);
   }
 })();
