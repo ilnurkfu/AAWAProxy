@@ -8,7 +8,7 @@
     /* 2. создаём iframe, где будет жить mini-chat */
     const frame = document.createElement('iframe');
     frame.id  = 'robot-frame';
-    frame.src = 'widget.html';           // ← путь к скопированной странице
+    frame.src = 'https://aawa-proxy.vercel.app/widget.html';           // ← путь к скопированной странице
     frame.title = 'Mars-Bot chat';
     document.body.appendChild(frame);
   
