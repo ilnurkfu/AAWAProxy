@@ -23,10 +23,13 @@
 /* ───────── ручка (absolute сверху) ───────── */
 #robot-handle{
   position:absolute; inset:0 0 auto 0; height:36px;
-  background:#141923; color:#8ab4ff; font:600 14px/36px 'Fira Sans',sans-serif;
-  padding:0 12px; user-select:none; cursor:grab; border-bottom:1px solid #1f2633;
+  background:#141923; color:#8ab4ff;
+  font:600 14px/36px 'Fira Sans',sans-serif;
+  padding:0 12px; user-select:none; cursor:grab;
+  border-bottom:1px solid #1f2633;
+  z-index:1;                 /* ← эта строка делает ручку видимой */
 }
-#robot-handle.dragging{cursor:grabbing;}
+#robot-handle.dragging{ cursor:grabbing; }
 
 /* ───────── iframe занимает 100 % ───────── */
 #robot-frame{position:absolute; inset:0; width:100%; height:100%; border:none;}
