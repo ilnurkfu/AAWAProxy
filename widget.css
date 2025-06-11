@@ -1,46 +1,32 @@
-/* =========================================================
-   widget.css  —  кнопка 🤖  +  перетаскиваемая панель-виджет
-   ========================================================= */
-
-/* ───────── кнопка запуска ───────── */
+/* ───────── кнопка 🤖 ───────── */
 #robot-launcher{
   position:fixed; bottom:24px; right:24px;
-  width:60px; height:60px; border-radius:50%;
-  background:#4f7df5; color:#fff;
-  font:32px/60px sans-serif; text-align:center;
-  cursor:pointer; box-shadow:0 4px 16px #0006;
-  z-index:9998; transition:transform .2s;
+  width:60px;height:60px;border-radius:50%;
+  background:#4f7df5;color:#fff;font:32px/60px sans-serif;text-align:center;
+  cursor:pointer;box-shadow:0 4px 16px #0006;z-index:9998;
+  transition:transform .2s;
 }
-#robot-launcher:hover{ transform:scale(1.08); }
+#robot-launcher:hover{transform:scale(1.08);}
 
-/* ───────── внешняя оболочка панели (таскаем её целиком) ───────── */
+/* ───────── панель-оболочка ───────── */
 #robot-shell{
-  position:fixed; bottom:100px; right:24px;      /* стартовое место */
+  position:fixed; bottom:100px; right:24px;        /* стартовое место */
   width:380px; height:520px; max-height:calc(100vh - 140px);
-
-  background:transparent; border-radius:12px;
-  box-shadow:0 8px 32px #0008; overflow:hidden;
+  background:transparent; border-radius:12px; box-shadow:0 8px 32px #0008;
+  overflow:hidden; z-index:9999;
 
   display:none; opacity:0; transform:translateY(10px);
   transition:opacity .25s, transform .25s;
-  z-index:9999;
 }
-/* класс .open ставит скрипт при клике на 🤖 */
-#robot-shell.open{
-  display:block; opacity:1; transform:translateY(0);
-}
+#robot-shell.open{display:block; opacity:1; transform:translateY(0);}
 
-/* ───────── ручка-заголовок для перетаскивания ───────── */
+/* ───────── ручка (absolute сверху) ───────── */
 #robot-handle{
-  height:36px; line-height:36px; padding:0 12px;
-  background:#141923; color:#8ab4ff; font-weight:600;
-  user-select:none; cursor:grab;
-  border-bottom:1px solid #1f2633;
+  position:absolute; inset:0 0 auto 0; height:36px;
+  background:#141923; color:#8ab4ff; font:600 14px/36px 'Fira Sans',sans-serif;
+  padding:0 12px; user-select:none; cursor:grab; border-bottom:1px solid #1f2633;
 }
-#robot-handle.dragging{ cursor:grabbing; }
+#robot-handle.dragging{cursor:grabbing;}
 
-/* ───────── сам iframe-чат заполняет оболочку ───────── */
-#robot-frame{
-  width:100%; height:calc(100% - 36px);   /* всё, кроме ручки */
-  border:none; border-radius:0 0 12px 12px;
-}
+/* ───────── iframe занимает 100 % ───────── */
+#robot-frame{position:absolute; inset:0; width:100%; height:100%; border:none;}
