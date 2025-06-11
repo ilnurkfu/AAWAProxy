@@ -15,14 +15,16 @@
 
   /* iframe */
   const frame = document.createElement('iframe');
-  frame.id='robot-frame';
-  frame.src='https://aawa-proxy.vercel.app/widget.html';
-  frame.title='Mars-Bot chat';
+  frame.id = 'robot-frame';
+  frame.title = 'Mars-bot Chat';
+  frame.style.display = 'none';        // скрыт, пока src не задан
   shell.appendChild(frame);
-  document.body.appendChild(shell);
 
-  /* показать / спрятать */
-  btn.onclick=()=> shell.classList.toggle('open');
+btn.onclick = () => {
+  /* ставим src только при первом открытии */
+  if (!frame.src) frame.src = 'https://aawa-proxy.vercel.app/widget.html';
+  shell.classList.toggle('open');
+};
 
   /* ─ drag только за handle ─ */
   let drag=false,sx=0,sy=0,sl=0,st=0;
